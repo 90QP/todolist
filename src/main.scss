@@ -1,0 +1,300 @@
+$light : #eee ;
+$gray : #9a9a9e;
+$gray3 : #ccc;
+$dark: #0a0729;
+$primary: #23c2df;
+$business: #406dea;
+$personal: $primary;
+$danger: #f35290;
+
+$shadow: 0 1px 3px rgba(0,0,0,0.2);
+$business-glow: 0 0 5px rgba(64, 109, 234, 0.7);
+$personal-glow: 0 0 4px rgba(39, 194, 223, 0.7);
+
+@font-face {
+  font-family: 'Orbit-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/Orbit-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'TTHakgyoansimJiugaeR';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimJiugaeR.woff2') format('woff2');
+}
+
+@mixin box($w:100%, $h:auto, $br:5px) {
+  width: $w;
+  height: $h;
+  border-radius: $br;
+  background-color: #fff;
+  box-shadow: $shadow;
+}
+
+.m_only { display: none;}
+@media (max-width:450px){
+  .m_only {
+    display: block;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  letter-spacing: -0.25px;
+  font-family: 'Orbit-Regular';
+  word-spacing: -3px;
+}
+
+body {
+  background: $light;
+  color: $dark;
+}
+
+section {
+  margin: 2rem 0;
+  padding:0 2rem;
+}
+
+h4 {
+  color:$gray;
+  font-size: 0.8rem;
+}
+
+h2 {
+  color: $primary;
+  font-size: 1.2rem;
+  font-family: 'TTHakgyoansimJiugaeR';
+  word-spacing: 1px;
+}
+
+
+input, button {
+  appearance: none;
+  border: none;
+  outline: none;
+  cursor: initial;
+}
+
+.greeting {
+  .title { 
+    @media (max-width:450px){
+        font-size: 1.4rem;
+      }
+    input {
+      background-color: #fff;
+      padding: 5px 15px;
+      border-radius: 50px;
+      font-size: 1.5rem;
+      color: $business;
+      font-weight: bold;
+      text-align: right;
+
+      &::placeholder {
+        font-size: 0.8rem;
+        transform: translateY(-4px);
+        color: $gray;
+      }
+    }
+  }
+}
+
+.create-todo {
+  input[type="text"]{
+    @include box(100%, 40px);
+    font-size: 1rem;
+    padding:1rem;
+    color:$dark;
+    margin: 1rem 0 0.2rem;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 0.5rem 0 0.2rem;
+
+    label {
+      border-radius: 5px;
+      display: flex;
+      gap: 0.5rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      background-color: #fff;
+      font-size: 0.8rem;
+
+      .bubble {
+        display: block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 2px solid $business;
+        box-shadow: $business-glow;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &::after {
+          display: block;
+          content: "";
+          width: 0;
+          height: 0;
+          opacity: 0;
+          border-radius: 50%;
+          background-color: $business;
+          transition: 0.3s;
+        }
+
+        &.personal {
+          border: 2px solid $personal;
+
+          &::after {
+            background-color: $personal;
+          }
+        }
+      }
+      
+      input:checked + .bubble::after {
+        width: 12px;
+        height: 12px;
+        opacity: 1;
+      }
+    }
+  }
+
+  input[type="submit"]{
+    @include box;
+    background: $primary;
+    padding: 0.8rem 0;
+    font-size: 1rem;
+    color: #fff;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+      transform: translateY(0.2rem);
+    }
+  }
+
+  .selected {
+    font-size: 0.85rem;
+  }
+
+  .info_wrap {
+    margin-top: 0.5rem;
+    background: rgba(123, 185, 201, 0.2);
+    padding:0.5rem 1rem;
+    border-radius: 0.5rem;
+    h3 {
+      letter-spacing: -1px;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+  }
+}
+
+.todo-list {
+
+  h2 { 
+    color:$business;
+
+  }
+  .list {
+    .todo-item {
+      &.done {
+        .todo-content input{
+          text-decoration: line-through;
+          color: $gray;
+        }
+      }
+
+      @include box;
+      padding: 0.5rem 1rem;
+      margin: 0.6rem 0;
+      display: flex;
+      background-color: rgba(255,255,255,1);
+      gap: 1rem;
+      align-items: center;
+    }
+
+    label {
+      display: block;
+    }
+
+    .todo-content {
+      flex-grow: 1;
+      width: 100%;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      input {
+        font-size: 0.9rem;
+        width: 100%;
+      }
+    }
+
+    .actions {
+      button {
+        display: block;
+        padding: 0.3rem;
+        border-radius: 0.2rem;
+        background: $danger;
+        color: #fff;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover {
+          background: lighten($danger, 15%);
+          transform: translateY(0.1rem);
+        }
+      }
+    }
+  }
+  label {
+    input[type="checkbox"]{
+      display: none;
+    }
+    
+    .bubble {
+      display: block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid $business;
+      box-shadow: $business-glow;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &::after {
+        display: block;
+        content: "";
+        width: 0;
+        height: 0;
+        opacity: 0;
+        border-radius: 50%;
+        background-color: $business;
+        transition: 0.3s;
+      }
+
+      &.personal {
+        border: 2px solid $personal;
+
+        &::after {
+          background-color: $personal;
+        }
+      }
+    }
+    
+    input:checked + .bubble::after {
+      width: 12px;
+      height: 12px;
+      opacity: 1;
+    }
+  }
+}
